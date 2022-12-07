@@ -8,8 +8,8 @@
 struct ImageHeader
 {
 	char signature[4];
-	uint8_t width;
-	uint8_t height;
+	uint16_t width;
+	uint16_t height;
 	unsigned short mode;
 };
 
@@ -29,7 +29,7 @@ bool WriteImage(Image* img, const char* filename)
 	os.write((char*)&img->header, sizeof(ImageHeader));
 
 	// calculate image size
-	uint16_t imgsize = img->header.width * img->header.height;
+	uint32_t imgsize = img->header.width * img->header.height;
 
 	// write image content
 	os.write(img->data, imgsize);
@@ -49,7 +49,7 @@ Image *ReadImage(const char* filename)
 	is.read((char*)&img->header, sizeof(ImageHeader));
 
 	// calculate image size
-	uint16_t imgsize = img->header.width * img->header.height;
+	uint32_t imgsize = img->header.width * img->header.height;
 	img->data = new char[imgsize];
 
 	// read image content
